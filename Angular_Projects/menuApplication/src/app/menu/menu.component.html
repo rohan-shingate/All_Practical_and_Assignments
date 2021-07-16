@@ -1,0 +1,26 @@
+<h2>Menu Items</h2>
+<div>
+    <mat-card>
+
+        <label for="new-item">Item ID: </label>
+        <input matInput id="new-item" #itemId />
+        <label for="new-item">Item Name: </label>
+        <input matInput id="new-item" #itemName />
+        <label for="new-item">Item Price: </label>
+        <input matInput id="new-item" #itemPrice />
+
+    </mat-card>
+
+    <button mat-raised-button class="add-button" (click)="add(itemId.value,itemName.value, itemPrice.value); itemName.value='';itemPrice.value='';itemId.value=''">
+    Add Item
+  </button>
+</div>
+
+<ul class="items">
+    <li *ngFor="let item of items">
+        <a routerLink="/detail/{{item.id}}">
+            <span class="badge">{{item.id}}</span>{{item.name}}, Price: {{item.price}}
+        </a>
+        <button mat-raised-button class="delete" title="delete item" (click)="delete(item)">X</button>
+    </li>
+</ul>

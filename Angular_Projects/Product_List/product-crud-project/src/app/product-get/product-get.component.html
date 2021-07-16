@@ -1,0 +1,22 @@
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <td><h4>Product Name</h4></td>
+        <td><h4>Product Description</h4></td>
+        <td><h4>Product Price</h4></td>
+    </tr>
+    </thead>
+  
+    <tbody>
+        <tr *ngFor="let product of products">
+            <td>{{ product.productName }}</td>
+             <td>{{ product.productDescription }}</td>
+            <td>{{ product.productPrice }}</td>
+            <td><a [routerLink]="['/edit/',product.id]" class="btn btn-primary">Edit</a></td>
+            <td><a [routerLink]="['/products']" class="btn btn-danger"
+                 (click)="productDel(product.id)"
+                 >Delete</a></td>
+        </tr> 
+    </tbody>
+  </table>

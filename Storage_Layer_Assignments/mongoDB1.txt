@@ -1,0 +1,511 @@
+Assignment 1
+
+1)Display all the information of the EMP table?
+db.emp.find({​​​​​​​}​​​​​​​);
+
+
+2)Display unique Jobs from EMP table?
+
+
+
+3)List the emps in the asc order of their Salaries?
+db.emporder by sal.find({​​​​​​​}​​​​​​​).sort({​​​​​​​"sal": 1}​​​​​​​);
+
+
+4)List the details of the emps in asc order of the Dptnos and desc of Jobs?
+db.emporder by deptno asc,job desc.find({​​​​​​​}​​​​​​​).sort({​​​​​​​ "deptno": -1}​​​​​​​);
+
+
+5)Display all the unique job groups in the descending order?
+db.emporder by dj desc.find({​​​​​​​}​​​​​​​,{​​​​​​​   "distinct(job)asdj": 1}​​​​​​​).sort({​​​​​​​  "dj": -1}​​​​​​​);
+
+
+6)Display all the details of all ‘Mgrs’
+db.emp.find({​​​​​​​ "job" : 'manager'}​​​​​​​);
+
+
+7) List the emps who joined before 1981
+db.emp.find({​​​​​​​ "year(hiredate)":{​​​​​​​ "$lt" : '1981' }​​​​​​​}​​​​​​​);
+
+
+8)List the Empno, Ename, Sal, Daily sal of all emps in the asc order of Annsal
+db.emporder by sal.find({​​​​​​​}​​​​​​​,{​​​​​​​  
+				 "Empno": 1,
+  				 "Ename": 1,
+  				 "Sal": 1,
+   				 "sal/30asDailysal": 1}).sort({​​​​​​​  "sal": 1}​​​​​​​);
+
+
+9) Display the Empno, Ename, job, Hiredate, Exp of all Mgrs
+db.emp.find({​​​​​​​
+ "job" : 'manager'
+}​​​​​​​,{​​​​​​​
+   "Empno": 1,
+   "Ename": 1,
+   "job": 1,
+   "Hiredate": 1,
+   "YEAR(CURDATE())-YEAR(hiredate)asExp": 1
+}​​​​​​​
+);
+
+
+10) List the Empno, Ename, Sal, Exp of all emps working for Mgr 7369
+db.emp.find({​​​​​​​ "mgr" : 3290}​​​​​​​,{​​​​​​​
+   "Empno": 1,
+   "Ename": 1,
+   "Sal": 1,
+   "YEAR(CURDATE())-YEAR(hiredate)asExp": 1
+}​​​​​​​
+);
+
+
+11) Display all the details of the emps whose Comm Is more than their Sal
+db.emp.find({​​​​​​​ "$where": "this.comm > this.sal"}​​​​​​​);
+
+
+12) List the emps along with their Exp and Daily Sal is more than Rs 100
+db.emp.find({​​​​​​​ "sal/30":{​​​​​​​ "$gt" : 100 }​​​​​​​}​​​​​​​,{​​​​​​​
+   "*": 1,
+   "YEAR(CURDATE())-YEAR(hiredate)asExp": 1,
+   "sal/30asdailysal": 1}​​​​​​​
+);
+
+
+13) List the emps who are either ‘CLERK’ or ‘ANALYST’ in the Desc order
+db.emp.find({​​​​​​​
+   "$or": [
+      {​​​​​​​
+    "job" : 'clerk' 
+      }​​​​​​​,
+      {​​​​​​​ "job" : 'analyst'   }
+          ​​​​​​​]
+}​​​​​​​).sort({​​​​​​​ "job": -1}​​​​​​​);
+
+14) List the emps who joined on 1-MAY-81,3-DEC-81,17-DEC-81,19-JAN-80 in asc order of seniority
+db.emp.find({​​​​​​​
+   "$and": [{​​​​​​​
+   "year(hiredate)" : '1980'  
+    }​​​​​​​,{​​​​​​​
+   "$and": [{​​​​​​​
+   "month(hiredate)" : '05'  
+    }​​​​​​​,{​​​​​​​
+   "$or": [{​​​​​​​
+    "day(hiredate)" : '1') 
+ }​​​​​​​,{​​​​​​​
+   "$and": [{​​​​​​​
+   "year(hiredate)" : '1981'  
+    }​​​​​​​,{​​​​​​​
+   "$and": [{​​​​​​​
+   "month(hiredate)" : '12'  
+    }​​​​​​​,{​​​​​​​
+   "$or": [{​​​​​​​
+    "day(hiredate)" : '17') 
+ }​​​​​​​,{​​​​​​​
+   "$and": [{​​​​​​​
+   "year(hiredate)" : '1981'  
+    }​​​​​​​,{​​​​​​​
+   "$and": [{​​​​​​​
+   "month(hiredate)" : '12'  
+    }​​​​​​​,{​​​​​​​
+   "$or": [{​​​​​​​
+    "day(hiredate)" : '3' ) 
+ }​​​​​​​,{​​​​​​​
+   "$and": [{​​​​​​​
+   "year(hiredate)" : '1980' 
+ }​​​​​​​,{​​​​​​​
+   "$and": [{​​​​​​​
+   " month(hiredate)" : '01' 
+ }​​​​​​​,{​​​​​​​ " day(hiredate)" : '19') 
+   }​​​​​​​]
+   }​​​​​​​]
+   }​​​​​​​]
+   }​​​​​​​]
+   }​​​​​​​]
+   }​​​​​​​]
+   }​​​​​​​]
+   }​​​​​​​]
+   }​​​​​​​]
+   }​​​​​​​]
+   }​​​​​​​]
+}​​​​​​​).sort({​​​​​​​
+ "exp": 1
+}​​​​​​​);
+
+
+
+15) List the emp who are working for the Deptno 10 or20
+db.emp.find({​​​​​​​
+   "$or": [{​​​​​​​
+    "deptno" : 10 
+ }​​​​​​​,{​​​​​​​ "deptno" : 20 
+   }​​​​​​​]
+}​​​​​​​);
+
+
+16) List the emps who are joined in the year 81
+db.emp.find({​​​​​​​
+ "year(hiredate)" : '1981'
+}​​​​​​​);
+
+
+17) List the emps Who Annual sal ranging from 22000 and 45000
+db.emp.find({​​​​​​​
+   "$and": [{​​​​​​​ 
+ }​​​​​​​,{​​​​​​​ 
+   }​​​​​​​]
+}​​​​​​​,{​​​​​​​
+   "*": 1,
+   "sal*12asAnnualsalary": 1
+}​​​​​​​
+);
+
+
+18) List the Enames those are having five characters in their Names
+db.emp.find({​​​​​​​
+ "ename " : '_____'
+}​​​​​​​);
+
+
+19) List the Enames those are starting with ‘S’ and with five characters
+db.emp.find({​​​​​​​
+ "ename " :  'S____'
+}​​​​​​​);
+
+
+20) List the emps those are having four chars and third character must be ‘r’
+db.emp.find({​​​​​​​
+ "ename " : '__r_'
+}​​​​​​​);
+
+
+21) List the Five character names starting with ‘S’ and ending with ‘H’
+db.emp.find({​​​​​​​
+ "ename " : 's___h'
+}​​​​​​​);
+
+
+22) List the emps who joined in January
+db.emp.find({​​​​​​​
+ "month(hiredate)" : '01'
+}​​​​​​​);
+
+
+23) List the emps whose names having a character set ‘ll’ together
+db.emp.find({​​​​​​​
+ "ename " :  '%ll%'
+}​​​​​​​);
+
+
+24) List the emps who does not belong to Deptno 20
+db.emp.find({​​​​​​​
+ "deptno <":{​​​​​​​ "$gt" :  20 }​​​​​​​
+}​​​​​​​);
+
+
+25) List all the emps except ‘PRESIDENT’ & ‘MGR” in asc order of Salaries
+db.emp.find({​​​​​​​
+   "$and": [{​​​​​​​
+   "job <":{​​​​​​​ "$gt" : 'PRESIDENT'  }​​​​​​​
+ }​​​​​​​,{​​​​​​​ " job <":{​​​​​​​ "$gt" :  'manager'  }​​​​​​​
+   }​​​​​​​]
+}​​​​​​​).sort({​​​​​​​
+ "sal": 1
+}​​​​​​​);
+
+
+26) List the emps whose Empno not starting with digit7
+
+
+
+1) List the emps who are working under ‘MGR’
+db.emp.find({​​​​​​​
+   "$and": [{​​​​​​​
+   "job<":{​​​​​​​ "$gt" : 'manager'  }​​​​​​​
+ }​​​​​​​,{​​​​​​​ " job<":{​​​​​​​ "$gt" : 'president' }​​​​​​​
+   }​​​​​​​]
+}​​​​​​​);
+
+
+2) List the emps who joined in any year but not belongs to the month of March
+db.emp.find({​​​​​​​
+ "month(hiredate)<":{​​​​​​​ "$gt" : '03' }​​​​​​​
+}​​​​​​​);
+
+
+3) List all the Clerks of Deptno 20
+db.emp.find({​​​​​​​
+   "$and": [{​​​​​​​
+   "job" : 'clerk' 
+ }​​​​​​​,{​​​​​​​ " deptno" : 20
+   }​​​​​​​]
+}​​​​​​​);
+
+
+4) List the emps of Deptno 30 or 10 joined in the year 1981
+db.emp.find({​​​​​​​
+   "$or": [{​​​​​​​
+    "deptno " :  30 
+ }​​​​​​​,{​​​​​​​
+   "$and": [{​​​​​​​
+   "deptno" : 20 
+ }​​​​​​​,{​​​​​​​ " month(hiredate)" : '1981'
+   }​​​​​​​]
+   }​​​​​​​]
+}​​​​​​​);
+
+
+
+5) Display the details of SMITH
+db.emp.find({​​​​​​​
+ "ename" : 'smith'
+}​​​​​​​);
+
+    
+
+6) LIST EMP WHO ARE WORKING AS MANAGER OR ANALYST OR CLERK
+db.EMP.find({​​​​​​​
+ "JOB": {​​​​​​​"$in": ['MANAGER','ANALYST','CLERK'}​​​​​​​
+}​​​​​​​);
+
+
+7)LIST EMP WHO ARE EARNING SAL BETWEEN 3000 AND 5000 (INCLUSIVE OF LIMIT)
+
+
+
+
+8) LIST EMP WHO ARE WORKING AS MANAGER OR ANALYST OR CLERK AND EARNING SAL BETWEEN 3000 AND 5000
+db.emp.find({​​​​​​​
+   "$and": [{​​​​​​​
+   "job": {​​​​​​​"$in": ['MANAGER','ANALYST','CLERK'] }​​​​​​​
+ }​​​​​​​,{​​​​​​​
+   "$and": [{​​​​​​​
+   
+ }​​​​​​​,{​​​​​​​ 
+   }​​​​​​​]
+   }​​​​​​​]
+}​​​​​​​);
+
+9) LIST ALL EMP WHE ARE EARNING COMM
+db.emp.find({​​​​​​​
+ "comm":{​​​​​​​ "$gt" : 0 }​​​​​​​
+}​​​​​​​);
+
+
+10) LIST ALL EMP WHOSE COMM IS NOT NULL
+db.emp.find({​​​​​​​
+ "comm ":{​​​​​​​ "$gte" :  0 }​​​​​​​
+}​​​​​​​);
+
+
+11) LIST ALL EMP WHOSE NAME STARTS WITH S
+db.EMP.find({​​​​​​​
+ "ename " :  'S%'
+}​​​​​​​);
+
+
+12) LIST ALL EMP WHOSE NAME ENDS WITH R
+db.EMP.find({​​​​​​​
+ "ename " :  '%R'
+}​​​​​​​);
+
+
+13) LIST ALL EMP WHOSE NAME CONTAINS A
+db.EMP.find({​​​​​​​
+ "ename " :  '%A%'
+}​​​​​​​);
+
+
+14) LIST ALL EMP WHOSE NAME CONTAINS A AS SECOND LETTER
+db.EMP.find({​​​​​​​
+ "ename " :  '_A%'
+}​​​​​​​);
+
+
+15) LIST ALL EMP WHOSE NAME STARTS WITH EITHER M OR S
+db.EMP.find({​​​​​​​
+   "$or": [{​​​​​​​
+    "ename " :  'M%%' 
+ }​​​​​​​,{​​​​​​​ "ename " :  'S%'
+   }​​​​​​​]
+}​​​​​​​);
+
+
+16) LIST ALL EMP WHOSE NAME STARTS BETWEEN A TO M
+
+
+
+17) LIST ALL EMP WHOSE NAME CONTAINS _
+db.EMP.find({​​​​​​​
+ "ename " :  '%\_%' 
+}​​​​​​​);
+
+
+18) LIST ALL EMP WHO ARE WORKING AS MANAGER IN EITHER DEPT 10 OR 20 AND ALL CLERK FOR DEPT3 30
+db.emp.find({​​​​​​​
+   "$or": [{​​​​​​​
+    "mgr in (select deptno from emp where deptno" : 10 
+ }​​​​​​​,{​​​​​​​
+   "$or": [{​​​​​​​
+    "deptno" : 20) 
+ }​​​​​​​,{​​​​​​​
+   "$and": [{​​​​​​​
+   "job" : 'clerk' 
+ }​​​​​​​,{​​​​​​​ " deptno" : 30
+   }​​​​​​​]
+   }​​​​​​​]
+   }​​​​​​​]
+}​​​​​​​);
+
+
+
+
+db.emp.find({​​​​​​​
+
+
+   "$and": [{​​​​​​​
+   "job" : 'manager'  
+    }​​​​​​​,{​​​​​​​
+   "$or": [{​​​​​​​
+    "deptno" : 10 
+ }​​​​​​​,{​​​​​​​
+   "$or": [{​​​​​​​
+    "deptno" : 20)) 
+ }​​​​​​​,{​​​​​​​
+   "$and": [{​​​​​​​
+   "job" : 'clerk' 
+ }​​​​​​​,{​​​​​​​ " deptno" : 30
+   }​​​​​​​]
+   }​​​​​​​]
+   }​​​​​​​]
+   }​​​​​​​]
+}​​​​​​​);
+
+
+19) LIST ENAME, SAL AND BONUS AS 10% OF SALARY
+db.emp.find({​​​​​​}​​​​​​​,{​​​​​​​
+   "ename": 1,
+   "sal": 1,
+   "0.01*salasBONUS": 1
+}​​​​​​​
+);
+
+
+20) LIST EMP DATA AS PER THE ASCENDING ORDER OF NAME
+db.emporder by ename.find({​​​​​​​}​​​​​​​).sort({​​​​​​​
+ "ename": 1
+}​​​​​​​);
+
+
+21) LIST ALL AS PER THEIR SALARY HIGHES TO LOWEST
+db.emporder by sal desc.find({​​​​​​​
+}​​​​​​​).sort({​​​​​​​
+ "sal": -1
+}​​​​​​​);
+
+
+22) LIST EMP AS PER THEIR DEPT, WITH IN DEPT HIGHEST TO LOWESET SAL
+db.emporder by deptno desc.find({​​​​​​​}​​​​​​​).sort({​​​​​​​
+ "deptno": -1
+}​​​​​​​);
+
+
+23) LIST TOTAL ORGANIZATION SALARY
+db.emp.find({​​​​​​​
+ 
+}​​​​​​​,{​​​​​​​
+   "sum(sal)asTotal_organisation_salary": 1
+}​​​​​​​
+);
+
+
+24) LIST DEPTWISE TOTAL SALARY
+db..group({​​​​​​​
+   "key":{​​​​​​​
+         "deptno": true
+   }​​​​​​​,
+   "initial": {​​​​​​​
+         "sumsalasDepartment_sal ": 0
+   }​​​​​​​,
+   "reduce": function( obj , prev ){​​​​​​​
+         prev.sumsalas Department_sal  = prev.sumsalas Department_sal  + obj.salas Department_sal  - 0;
+   }​​​​​​​,
+   "finalize": function( prev ){​​​​​​​
+
+
+   }​​​​​​​,
+   "cond": {​​​​​​​
+ 
+   }​​​​​​​
+
+
+}​​​​​​​);
+
+
+
+25) LIST ALL EMP WHO HAVE JOINED IN MONTH OF FEB
+db.emp.find({​​​​​​​
+ "month(hiredate)" : '02'
+}​​​​​​​);
+
+
+26) LIST EMP COUNT JOINED BETWEEN 1981 AND 1983
+db.emp.find({​​​​​​​
+   "$and": [{​​​​​​​
+   "year(hiredate)":{​​​​​​​ "$gt" : '1981'  }​​​​​​​
+ }​​​​​​​,{​​​​​​​ " Year(hiredate)":{​​​​​​​ "$lt" : '1983' }​​​​​​​
+   }​​​​​​​]
+}​​​​​​​,{​​​​​​​
+   "count(empno)": 1
+}​​​​​​​
+);
+
+
+27) LIST HOW MANY YEARS OF SERVICE COMPLETED BY EACH EMP ARRANGE BASED ON TENURE HIGHEST TO LOWEST
+
+
+db.emporder by tenure desc.find({​​​​​​​
+ 
+}​​​​​​​,{​​​​​​​
+   "*": 1,
+   "YEAR(CURDATE())-YEAR(hiredate)ASTENURE": 1
+}​​​​​​​
+).sort({​​​​​​​
+  "tenure": -1
+}​​​​​​​);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
